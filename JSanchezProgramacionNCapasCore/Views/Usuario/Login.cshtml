@@ -1,0 +1,32 @@
+﻿@model ML.Usuario
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+
+}
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/Login.css" />
+</head>
+
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+@using (Html.BeginForm("Login", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+<form>
+    <h3>Login Here</h3>
+
+    <label for="username">Username</label>
+    <input type="text" placeholder="UserName" id="username" name="UserNombre">
+
+    <label for="password">Password</label>
+    <input type="password" placeholder="Password" id="password" name="Password">
+
+    <button type="submit">Login</button>
+</form>
+}

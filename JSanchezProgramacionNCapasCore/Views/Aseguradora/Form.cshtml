@@ -1,0 +1,95 @@
+﻿@model ML.Aseguradora
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Aseguradora</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Form", "Aseguradora", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.IdAseguradora, new { @class = "visually-hidden" })
+
+                            @Html.TextBoxFor(model => model.IdAseguradora, new { @class = "visually-hidden form-control" })
+                            @Html.ValidationMessageFor(model => model.IdAseguradora)
+                            @*hidden*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Nombre)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-building" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
+
+                                @Html.ValidationMessageFor(model => model.Nombre)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.FechaCreacion, new { @class = "visually-hidden" })
+                            @Html.TextBoxFor(model => model.FechaCreacion, new { @class = "visually-hidden form-control", @id = "txtFechaCreacion" })
+                            @Html.ValidationMessageFor(model => model.FechaCreacion)
+                            @*hidden*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.FechaModificacion, new { @class = "visually-hidden" })
+                            @Html.TextBoxFor(model => model.FechaModificacion, new { @class = "visually-hidden form-control", @id = "txtFechaModificion" })
+                            @Html.ValidationMessageFor(model => model.FechaModificacion)
+                            @*hidden*@
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                <div class="col-md-3">
+                @Html.LabelFor(model => model.Usuario.IdUsuario)
+                @Html.TextBoxFor(model => model.Usuario.IdUsuario, new { @class = "form-control", @id = "txtIdUsuario" })
+                @Html.ValidationMessageFor(model => model.Usuario.IdUsuario)
+                </div>
+                </div>*@
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Usuario)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-user-tie" style="color:darkcyan"></i></span>
+                                @Html.DropDownListFor(model => model.Usuario.IdUsuario, new SelectList(Model.Usuario.Usuarios, "IdUsuario", "Nombre"), "Selecciona el usuario correspondiente", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-bookmark" style="color:green"></i></span>
+                                <input type="submit" value="Guardar" class="btn btn-success" />
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-rotate-left" style="color:red"></i></span>
+                                @Html.ActionLink("Regresar", "GetAll", "Aseguradora", htmlAttributes: new { @class = "btn btn-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

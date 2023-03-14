@@ -1,0 +1,208 @@
+﻿@model ML.Empleado
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Empleado</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Form", "Empleado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.NumeroEmpleado @*,new { @class = "hidden" }*@)
+                            <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                            @Html.TextBoxFor(model => model.NumeroEmpleado, new { @class = "form-control",@id = "txtNumeroEmpleado"@*"hidden form-control"*@ })
+                            @Html.ValidationMessageFor(model => model.NumeroEmpleado)
+                            @*hidden*@
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.RFC)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.RFC, new { @class = "form-control", @id = "txtRFC" })
+
+                                @Html.ValidationMessageFor(model => model.RFC)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Nombre)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
+
+                                @Html.ValidationMessageFor(model => model.Nombre)
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ApellidoPaterno)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno" })
+                                @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ApellidoMaterno)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtApellidoMaterno" })
+                                @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Email)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-envelope" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "txtEmail" })
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Telefono)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-phone" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", @id = "txtTelefono" })
+                                @Html.ValidationMessageFor(model => model.Telefono)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.FechaNacimiento)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-calendar-days" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control", @id = "txtFechaNacimiento" })
+                                @Html.ValidationMessageFor(model => model.FechaNacimiento)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.NSS)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-id-card" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.NSS, new { @class = "form-control", @id = "txtNSS" })
+                                @Html.ValidationMessageFor(model => model.NSS)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Empresa)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-address-book" style="color:darkcyan"></i></span>
+                                @Html.DropDownListFor(model => model.Empresa.IdEmpresa, new SelectList(Model.Empresa.Empresas, "IdEmpresa", "Nombre"), "Selecciona la empresa correspondiente", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        @*Mostrar foto y cargar*@
+
+                        <div class="input-group-addon mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user-plus"></i></span>
+                            <input id="fuImage" type='file' class="form-control" name="fuImage" onchange="validateFile(this), readURL(this);  " />
+                        </div>
+                        @if (Model.Foto != null)
+                        {
+                            <img id="Img" src="data:image/*;base64,@Model.Foto" style="width:250px ; height:250px" />
+                        }
+                        else
+                        {
+                            <img id="Img" src="~/Imagenes/UserDefault.jpg" style="width:250px ; height:250px" />
+                        }
+
+                        @Html.HiddenFor(model => model.Foto)
+
+                        @Html.HiddenFor(model => model.Action)
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-bookmark" style="color:green"></i></span>
+                                <input type="submit" value="Guardar" class="btn btn-success" />
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-rotate-left" style="color:red"></i></span>
+                                @Html.ActionLink("Regresar", "GetAll", "Empleado", htmlAttributes: new { @class = "btn btn-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+
+        function validateFile() {
+            var allowedExtension = ['jpeg', 'jpg', 'png'];
+            var fileExtension = document.getElementById('fuImage').value.split('.').pop().toLowerCase();
+            var isValidFile = false;
+            for (var index in allowedExtension) {
+                if (fileExtension === allowedExtension[index]) {
+                    isValidFile = true;
+                    break;
+                }
+            }
+            if (!isValidFile) {
+                alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
+                document.getElementById('fuImage').value = ""
+            }
+            return isValidFile;
+        }
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#Img').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(function () {
+            $("#txtFechaNacimiento").datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+    </script>
+}
+

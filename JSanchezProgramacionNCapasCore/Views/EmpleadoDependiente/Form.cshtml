@@ -1,0 +1,151 @@
+﻿@model ML.Dependiente
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Form</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Form", "EmpleadoDependiente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.IdDependiente, new { @class = "visually-hidden" })
+
+                            @Html.TextBoxFor(model => model.IdDependiente, new { @class = "visually-hidden form-control" })
+                            @Html.ValidationMessageFor(model => model.IdDependiente)
+                            @*hidden*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NumeroEmpleado)
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                            @Html.TextBoxFor(model => model.NumeroEmpleado, new { @class = "form-control", @id = "txtNombre" })
+
+                            @Html.ValidationMessageFor(model => model.NumeroEmpleado)
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Nombre)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
+
+                                @Html.ValidationMessageFor(model => model.Nombre)
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ApellidoPaterno)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno" })
+                                @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ApellidoMaterno)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtApellidoMaterno" })
+                                @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.EstadoCivil)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-id-card" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.EstadoCivil, new { @class = "form-control", @id = "txtNSS" })
+                                @Html.ValidationMessageFor(model => model.EstadoCivil)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Genero)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-id-card" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Genero, new { @class = "form-control", @id = "txtNSS" })
+                                @Html.ValidationMessageFor(model => model.Genero)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Telefono)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-phone" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", @id = "txtTelefono" })
+                                @Html.ValidationMessageFor(model => model.Telefono)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.FechaNacimiento)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-calendar-days" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control", @id = "txtFechaNacimiento" })
+                                @Html.ValidationMessageFor(model => model.FechaNacimiento)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.RFC)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-id-card" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.RFC, new { @class = "form-control", @id = "txtNSS" })
+                                @Html.ValidationMessageFor(model => model.RFC)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.DependienteTipo)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-address-book" style="color:darkcyan"></i></span>
+                                @Html.DropDownListFor(model => model.DependienteTipo.IdDependienteTipo, new SelectList(Model.DependienteTipo.DependienteTipos, "IdDependienteTipo", "Nombre"), "Selecciona la empresa correspondiente", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-bookmark" style="color:green"></i></span>
+                                <input type="submit" value="Guardar" class="btn btn-success" />
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-rotate-left" style="color:red"></i></span>
+                                @Html.ActionLink("Regresar", "DependienteGetByIdEmpleado", "EmpleadoDependiente", htmlAttributes: new { @class = "btn btn-danger" })
+                                @*como regresar a la vista anterior con la informacion del idempleado seleccionado*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

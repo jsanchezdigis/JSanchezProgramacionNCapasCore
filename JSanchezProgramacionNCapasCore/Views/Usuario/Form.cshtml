@@ -1,0 +1,533 @@
+﻿@model ML.Usuario
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Usuario</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.IdUsuario, new { @class = "visually-hidden" })
+
+                            @Html.TextBoxFor(model => model.IdUsuario, new { @class = "visually-hidden form-control" })
+                            @Html.ValidationMessageFor(model => model.IdUsuario)
+                            @*hidden*@
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.UserNombre)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-user-large" style="color:darkcyan "></i></span>
+                                @Html.TextBoxFor(model => model.UserNombre, new { @class = "form-control", @id = "txtUserNombre", @onkeypress="SinEspacios(event, 'lblUserNombre','txtUserNombre')" })
+
+                                @Html.ValidationMessageFor(model => model.UserNombre,"", new { @class = "text-danger"})
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblUserNombre"})
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Nombre)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @onkeypress="SoloLetras(event, 'lblNombre','txtNombre')" })
+
+                                @Html.ValidationMessageFor(model => model.Nombre,"", new { @class = "text-danger"})
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblNombre"})
+                        </div>
+
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ApellidoPaterno)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno", @onkeypress="SoloLetras(event, 'lblApellidoPaterno','txtApellidoPaterno')" })
+                                @Html.ValidationMessageFor(model => model.ApellidoPaterno,"", new { @class = "text-danger"})
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblApellidoPaterno"})
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ApellidoMaterno)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtApellidoMaterno", @onkeypress="SoloLetras(event, 'lblApellidoMaterno','txtApellidoMaterno')" })
+                                @Html.ValidationMessageFor(model => model.ApellidoMaterno,"", new { @class = "text-danger"})
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblApellidoMaterno"})
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Email)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-envelope" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "txtEmail" })
+                                @Html.ValidationMessageFor(model => model.Email,"", new { @class = "text-danger"})
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblEmail"})
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Password)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-lock" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @id = "txtPassword" })
+                                @Html.ValidationMessageFor(model => model.Password,"", new { @class = "text-danger"})
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblPassword"})
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Sexo)
+                            <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-venus-mars" style="color:darkcyan"></i></span>
+
+                            @*@Html.TextBoxFor(model => model.Sexo, new { @class = "form-control", @id = "txtSexo" })*@
+                            <div class="col-md-3">
+                                @Html.Label("Masculino")@Html.RadioButtonFor(model => model.Sexo, "M")
+                                @*@Html.RadioButtonFor(model => model.Sexo, false, new { @id = "rbSexo" })
+                            @Html.Label("M", "Masculino")*@
+
+                            </div>
+                            <div class="col-md-3">
+                                @Html.Label("Femenino")@Html.RadioButtonFor(model => model.Sexo, "F")
+                                @*@Html.RadioButtonFor(model => model.Sexo, false, new { @id = "rbSexo" })
+                            @Html.Label("F", "Femenino")*@
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Sexo)
+                        </div>
+
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Telefono)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-phone" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", @id = "txtTelefono", @onkeypress="SoloNumeros(event, 'lblTelefono', 'txtTelefono')" })
+                                @Html.ValidationMessageFor(model => model.Telefono,"", new { @class = "text-danger"})
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblTelefono"})
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Celular)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-mobile-button" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Celular, new { @class = "form-control", @id = "txtCelular", @onkeypress="SoloNumeros(event, 'lblCelular','txtCelular')" })
+                                @Html.ValidationMessageFor(model => model.Celular,"", new { @class = "text-danger"})
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblCelular"})
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.FechaNacimiento)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-calendar-days" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control", @id = "txtFechaNacimiento" })
+                                @Html.ValidationMessageFor(model => model.FechaNacimiento,"", new { @class = "text-danger"})
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.CURP)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-id-card" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.CURP, new { @class = "form-control", @id = "txtCURP" })
+                                @Html.ValidationMessageFor(model => model.CURP,"", new { @class = "text-danger" })
+                            </div>
+                            @Html.Label(null, "", new {@id ="lblCURP"})
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Rol)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-address-book" style="color:darkcyan"></i></span>
+                                @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre"), "Selecciona el rol correspondiente", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @*<div class="form-group">
+                @Html.LabelFor(model => model.Imagen)
+                @Html.TextBoxFor(model => model.Imagen, new { @class = "form-control", @id = "txtImagen" })
+                @Html.ValidationMessageFor(model => model.Imagen)
+                </div>*@
+
+
+
+                    @*<div class="form-group">
+                <div class="col-md-3">
+                @Html.LabelFor(model => model.Rol.IdRol)
+                @Html.TextBoxFor(model => model.Rol.IdRol, new { @class = "form-control", @id = "txtIdRol" })
+                @Html.ValidationMessageFor(model => model.Rol.IdRol)
+                </div>
+                </div>*@
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>Dirección</h2>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Direccion.Colonia.Municipio.Estado.Pais)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-globe" style="color:darkcyan"></i></span>
+                                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Pais.Paises, "IdPais", "Nombre"), "Selecciona el Pais correspondiente", new { @class = "form-control", @id = "ddlPais" })
+                            </div>
+                        </div>
+
+                        @if (Model.Direccion.Colonia.Municipio.Estado.Estados != null)
+                        {
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Direccion.Colonia.Municipio.Estado)
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-globe" style="color:darkcyan"></i></span>
+                                    @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Estados, "IdEstado", "Nombre"), "Selecciona el estado correspondiente", new { @class = "form-control", @id = "ddlEstado" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Direccion.Colonia.Municipio.Estado)
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-globe" style="color:darkcyan"></i></span>
+                                    @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(string.Empty, "Value", "Text"), "Selecciona el estado correspondiente", new { @class = "form-control", @id = "ddlEstado" })
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.Direccion.Colonia.Municipio.Municipios != null)
+                        {
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Direccion.Colonia.Municipio)
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-globe" style="color:darkcyan"></i></span>
+                                    @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(Model.Direccion.Colonia.Municipio.Municipios, "IdMunicipio", "Nombre"), "Selecciona el municipio correspondiente", new { @class = "form-control", @id = "ddlMunicipio" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Direccion.Colonia.Municipio)
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-globe" style="color:darkcyan"></i></span>
+                                    @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(string.Empty, "Value", "Text"), "Selecciona el municipio correspondiente", new { @class = "form-control", @id = "ddlMunicipio" })
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.Direccion.Colonia.Colonias != null)
+                        {
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Direccion.Colonia)
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-globe" style="color:darkcyan"></i></span>
+                                    @Html.DropDownListFor(model => model.Direccion.Colonia.IdColonia, new SelectList(Model.Direccion.Colonia.Colonias, "IdColonia", "Nombre"), "Selecciona el colonia correspondiente", new { @class = "form-control", @id = "ddlColonia" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Direccion.Colonia)
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-globe" style="color:darkcyan"></i></span>
+                                    @Html.DropDownListFor(model => model.Direccion.Colonia.IdColonia, new SelectList(string.Empty, "Value", "Text"), "Selecciona el colonia correspondiente", new { @class = "form-control", @id = "ddlColonia" })
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Direccion.Calle)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-sharp fa-solid fa-road" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Direccion.Calle, new { @class = "form-control", @id = "txtDireccionCalle" })
+                                @Html.ValidationMessageFor(model => model.Direccion.Calle)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Direccion.NumeroInterior)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-hashtag" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Direccion.NumeroInterior, new { @class = "form-control", @id = "txtDireccionNumeroInterior" })
+                                @Html.ValidationMessageFor(model => model.Direccion.NumeroInterior)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Direccion.NumeroExterior)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-hashtag" style="color:darkcyan"></i></span>
+                                @Html.TextBoxFor(model => model.Direccion.NumeroExterior, new { @class = "form-control", @id = "txtDireccionNumeroExterior" })
+                                @Html.ValidationMessageFor(model => model.Direccion.NumeroExterior)
+                            </div>
+                        </div>
+
+                        @*Mostrar imagen y cargar*@
+
+                        <div class="input-group-addon mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user-plus"></i></span>
+                            <input id="fuImage" type='file' class="form-control" name="fuImage" onchange="validateFile(this), readURL(this);  " />
+                        </div>
+                        @if (Model.Imagen != null)
+                        {
+                            <img id="Img" src="data:image/*;base64,@Model.Imagen" style="width:250px ; height:250px" />
+                        }
+                        else
+                        {
+                            <img id="Img" src="~/Imagenes/UserDefault.jpg" style="width:250px ; height:250px" />
+                        }
+
+                        @Html.HiddenFor(model => model.Imagen)
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-bookmark" style="color:green"></i></span>
+                                <input type="submit" value="Guardar" class="btn btn-success" />
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-rotate-left" style="color:red"></i></span>
+                                @Html.ActionLink("Regresar", "GetAll", "Usuario", htmlAttributes: new { @class = "btn btn-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*@Scripts.Render("~/bundles/jquery")*@
+@section scripts{
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ddlPais").change(function () {
+                $("#ddlEstado").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("EstadoGetByIdPais")',
+                    dataType: 'json',
+                    data: { IdPais: $("#ddlPais").val() },
+                    success: function (Estados) {
+                        $("#ddlEstado").append('<option value="0">' + 'Seleccione una opción' + '</option>');
+                        $.each(Estados, function (i, Estados) {
+                            $("#ddlEstado").append('<option value="'
+                                + Estados.idEstado + '">'
+                                + Estados.nombre + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed.' + ex);
+                    }
+                });
+            });
+
+            $("#ddlEstado").change(function () {
+                $("#ddlMunicipio").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("MunicipioGetByIdEstado")',
+                    dataType: 'json',
+                    data: { IdEstado: $("#ddlEstado").val() },
+                    success: function (Municipios) {
+                        $("#ddlMunicipio").append('<option value="0">' + 'Seleccione una opción' + '</option>');
+                        $.each(Municipios, function (i, Municipios) {
+                            $("#ddlMunicipio").append('<option value="'
+                                + Municipios.idMunicipio + '">'
+                                + Municipios.nombre + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed.' + ex);
+                    }
+                });
+            });
+
+            $("#ddlMunicipio").change(function () {
+                $("#ddlColonia").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ColoniaGetByIdMunicipio")',
+                    dataType: 'json',
+                    data: { IdMunicipio: $("#ddlMunicipio").val() },
+                    success: function (Colonias) {
+                        $("#ddlColonia").append('<option value="0">' + 'Seleccione una opción' + '</option>');
+                        $.each(Colonias, function (i, Colonias) {
+                            $("#ddlColonia").append('<option value="'
+                                + Colonias.idColonia + '">'
+                                + Colonias.nombre + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed.' + ex);
+                    }
+                });
+            });
+
+        });
+
+        function validateFile() {
+            var allowedExtension = ['jpeg', 'jpg', 'png'];
+            var fileExtension = document.getElementById('fuImage').value.split('.').pop().toLowerCase();
+            var isValidFile = false;
+            for (var index in allowedExtension) {
+                if (fileExtension === allowedExtension[index]) {
+                    isValidFile = true;
+                    break;
+                }
+            }
+            if (!isValidFile) {
+                alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
+                document.getElementById('fuImage').value = ""
+            }
+            return isValidFile;
+        }
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#Img').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(function () {
+            $("#txtFechaNacimiento").datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+        function SoloLetras(e, IdLabel, IdTextBox) {
+            var caracter = e.key;
+            if (!/^[a-zA-Z]/g.test(caracter)) {
+                $('#' + IdLabel).text("Solo se aceptan letras");
+                $('#' + IdTextBox).css({ "border-color": "red", "background-color": "#f8d7da" });
+                $('#' + IdLabel).css({"color": "red"});
+                return false;
+            }
+            else {
+                //$('#' + controlId).text("");
+                $('#' + IdTextBox).css({ "border-color": "green", "background-color": "#77dd77" });
+                $('#' + IdLabel).text("");
+                return true;
+            }
+        }
+        function SoloNumeros(e, IdLabel, IdTextBox) {
+            var caracter = e.key;
+            if (!/[^0-9]/g.test(caracter)) {
+                $('#' + IdTextBox).css({ "border-color": "green", "background-color": "#77dd77" });
+                $('#' + IdLabel).text("");
+                return true;
+            }
+            else {
+                $('#' + IdLabel).text("Solo se aceptan números");
+                $('#' + IdTextBox).css({ "border-color": "red", "background-color": "#f8d7da" });
+                $('#' + IdLabel).css({ "color": "red" });
+                //$('#' + controlId).text("");
+                return false;
+            }
+        }
+
+        function SinEspacios(e, IdLabel,IdTextBox) {
+            var caracter = e.key;
+            if (!/[/^\S/]/g.test(caracter)) {
+                $('#' + IdLabel).text("Sin espacios");
+                $('#' + IdTextBox).css({ "border-color": "red", "background-color": "#f8d7da" });
+                $('#' + IdLabel).css({ "color": "red" });
+                return false;
+            }
+            else {
+                $('#' + IdTextBox).css({ "border-color": "green", "background-color": "#77dd77" });
+                $('#' + IdLabel).text("");
+                //$('#' + controlId).text("");
+                return true;
+            }
+        }
+
+        $('#txtEmail').blur(function () {
+            var RegexEmail = /^[a-zA-Z0-9._]+[a-zA-Z0-9]+@@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/;
+            var Valor = $('#txtEmail').val();
+            if (!RegexEmail.test(Valor)) {
+                $('#lblEmail' ).text("Fromato incorrecto");
+                $('#txtEmail' ).css({ "border-color": "red", "background-color": "#f8d7da" });
+                $('#lblEmail' ).css({ "color": "red" });
+                return false;
+            }
+            else {
+                $('#txtEmail' ).css({ "border-color": "green", "background-color": "#77dd77" });
+                $('#lblEmail' ).text("");
+                return true;
+            }
+        });
+
+        $('#txtPassword').blur(function () {
+            var RegexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/;
+            var Valor = $('#txtPassword').val();
+            if (!RegexPass.test(Valor)) {
+                $('#lblPassword' ).text("Fromato incorrecto");
+                $('#txtPassword' ).css({ "border-color": "red", "background-color": "#f8d7da" });
+                $('#lblPassword' ).css({ "color": "red" });
+                return false;
+            }
+            else {
+                $('#txtPassword' ).css({ "border-color": "green", "background-color": "#77dd77" });
+                $('#lblPassword' ).text("");
+                return true;
+            }
+        });
+
+        $('#txtCURP').blur(function () {
+            var RegexCurp = /^[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM]{1}(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$/;
+            var Valor = $('#txtCURP').val();
+            if (!RegexCurp.test(Valor)) {
+                $('#lblCURP' ).text("Fromato incorrecto");
+                $('#txtCURP' ).css({ "border-color": "red", "background-color": "#f8d7da" });
+                $('#lblCURP' ).css({ "color": "red" });
+                return false;
+            }
+            else {
+                $('#txtCURP' ).css({ "border-color": "green", "background-color": "#77dd77" });
+                $('#lblCURP' ).text("");
+                return true;
+            }
+        });
+    </script>
+}
+

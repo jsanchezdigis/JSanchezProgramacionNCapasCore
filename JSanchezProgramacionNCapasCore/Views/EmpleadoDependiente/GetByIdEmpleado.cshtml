@@ -1,0 +1,114 @@
+﻿@model ML.Empleado
+@{
+    ViewData["Title"] = "GetByIdEmpleado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Style.css" />
+</head>
+
+<div class="container">
+    <div class="row">
+        <h2>Dependientes</h2>
+    </div>
+
+    <hr>
+
+        @using (Html.BeginForm("GetByIdEmpleado", "EmpleadoDependiente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            <div class="col-md-3">
+                    @*@Html.LabelFor(model => model.Nombre)*@
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-signature" style="color:darkcyan"></i></span>
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder="Nombre", @id = "txtNombre" })
+
+                        @Html.ValidationMessageFor(model => model.Nombre,"", new { @class = "text-danger"})
+                </div>
+                    @Html.Label(null, "", new {@id ="lblNombre"})
+            </div>
+
+            <div class="col-md-3">
+                    @*@Html.LabelFor(model => model.Empresa)*@
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-address-book" style="color:darkcyan"></i></span>
+                        @Html.DropDownListFor(model => model.Empresa.IdEmpresa, new SelectList(Model.Empresa.Empresas, "IdEmpresa", "Nombre"), "Empresa", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="input-group">
+                    <input type="submit" value="Buscar" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+        }
+    </hr>
+
+    @foreach (ML.Empleado empleado in Model.Empleados)
+    {
+        @*<div class="card" style="width: 18rem;">
+    @if (empleado.Foto != null)
+    {
+    <img id="Img" src="data:image/*;base64, @empleado.Foto" style="width:100px ; height:100px" />
+    }
+    else
+    {
+    <img id="Img" src="~/Imagenes/UserDefault.jpg" style="width:100px ; height:100px" />
+    }
+    <div class="card-body">
+    <h5 class="card-title">@empleado.Nombre @empleado.ApellidoPaterno @empleado.ApellidoMaterno</h5>
+    <h5 class="card-title">@empleado.Empresa.Nombre</h5>
+    <input type="button" value="Dependiente" onclick="location.href='@Url.Action("DependienteGetByIdEmpleado", "EmpleadoDependiente", new { NumeroEmpleado = empleado.NumeroEmpleado })'" />
+    </div>
+    </div>*@
+
+
+        @*<div class="margenes">*@
+        <div class="row">
+            <div class="col-md-3">
+                <div class="right">
+                    <div class="slide-container">
+                        <div class="slide-content">
+                            <div class="card-wrapper">
+                                <div class="card ">
+                                    <div class="image-content">
+                                        <span class="overlay"></span>
+
+                                        <div class="card-image">
+                                            <!--<img src="images/profile1.jpg" alt="" class="card-img">-->
+                                            @if (empleado.Foto != null)
+                                            {
+                                                <img id="Img" src="data:image/*;base64, @empleado.Foto" style="width:100px ; height:100px" />
+                                            }
+                                            else
+                                            {
+                                                <img id="Img" src="~/Imagenes/UserDefault.jpg" style="width:100px ; height:100px" />
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="card-content">
+                                        <h2 class="name">@empleado.Nombre @empleado.ApellidoPaterno @empleado.ApellidoMaterno</h2>
+                                        <p class="description">@empleado.Empresa.Nombre</p>
+
+                                        @*<button class="button">View More</button>*@
+                                        <input type="button" value="Dependiente" onclick="location.href='@Url.Action("DependienteGetByIdEmpleado", "EmpleadoDependiente", new { NumeroEmpleado = empleado.NumeroEmpleado })'" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="swiper-button-next swiper-navBtn"></div>
+                    <div class="swiper-button-prev swiper-navBtn"></div>
+                    <div class="swiper-pagination"></div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*</div>*@
+    }
+
+</div>
+
