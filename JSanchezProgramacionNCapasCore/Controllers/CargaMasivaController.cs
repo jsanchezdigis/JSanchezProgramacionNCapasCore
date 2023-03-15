@@ -24,6 +24,7 @@ namespace PL.Controllers
         public ActionResult UsuarioCargaMasiva(ML.Usuario usuario)
         {
             IFormFile archivo = Request.Form.Files["FileExcel"];
+            //FileName = Path.GetFileName(archivo.FileName);
             //Session
             //GetString = Obtener la session
             //SetString = Crear una session

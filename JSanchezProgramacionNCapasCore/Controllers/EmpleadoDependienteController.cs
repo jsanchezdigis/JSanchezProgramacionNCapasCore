@@ -5,6 +5,7 @@ namespace PL.Controllers
 {
     public class EmpleadoDependienteController : Controller
     {
+
         [HttpGet]
         public ActionResult GetByIdEmpleado()
         {
@@ -45,6 +46,7 @@ namespace PL.Controllers
         }
 
         [HttpGet]
+        
         public ActionResult DependienteGetByIdEmpleado(string? NumeroEmpleado)
         {
             ML.Result result = BL.Dependiente.GetAll(NumeroEmpleado);

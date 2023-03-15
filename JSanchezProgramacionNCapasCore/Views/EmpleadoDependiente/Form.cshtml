@@ -138,7 +138,7 @@
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon1"><i class="fa-solid fa-rotate-left" style="color:red"></i></span>
-                                @Html.ActionLink("Regresar", "DependienteGetByIdEmpleado", "EmpleadoDependiente", htmlAttributes: new { @class = "btn btn-danger" })
+                                @Html.ActionLink("Regresar", "DependienteGetByIdEmpleado", "EmpleadoDependiente",new { NumeroEmpleado = Model.NumeroEmpleado }, htmlAttributes: new { @class = "btn btn-danger" })
                                 @*como regresar a la vista anterior con la informacion del idempleado seleccionado*@
                             </div>
                         </div>

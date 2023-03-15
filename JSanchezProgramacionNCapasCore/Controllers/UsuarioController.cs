@@ -5,21 +5,68 @@ namespace PL.Controllers
 {
     public class UsuarioController : Controller
     {
+
+        private readonly IConfiguration _configuration;
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment;
+
+        public UsuarioController(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+        {
+            _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         [HttpGet]
         public ActionResult GetAll()
         {
             ML.Usuario usuario = new ML.Usuario();
-            ML.Result result = BL.Usuario.GetAll(usuario);//EF
+            //ML.Result result = BL.Usuario.GetAll(usuario);//EF
 
-            if (result.Correct)
+            //if (result.Correct)
+            //{
+            //    usuario.Usuarios = result.Objects;
+            //    return View(usuario);
+            //}
+            //else
+            //{
+            //    return View(usuario);
+            //}
+
+            ML.Result result = new ML.Result();
+            result.Objects = new List<object>();
+
+            try
             {
-                usuario.Usuarios = result.Objects;
-                return View(usuario);
+
+                using (var client = new HttpClient())
+                {
+                    string urlApi = _configuration["urlApi"];
+                    client.BaseAddress = new Uri(urlApi);
+
+                    var responseTask = client.GetAsync("Usuario/GetAll");
+                    responseTask.Wait();
+
+                    var resultServicio = responseTask.Result;
+
+                    if (resultServicio.IsSuccessStatusCode)
+                    {
+                        var readTask = resultServicio.Content.ReadAsAsync<ML.Result>();
+                        readTask.Wait();
+
+                        foreach (var resultItem in readTask.Result.Objects)
+                        {
+                            ML.Usuario resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(resultItem.ToString());
+                            result.Objects.Add(resultItemList);
+                        }
+                    }
+                    usuario.Usuarios = result.Objects;
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                return View(usuario);
             }
+
+            return View(usuario);
         }
 
         [HttpPost]
