@@ -2,14 +2,15 @@
 
 namespace SL.Controllers
 {
-    public class UsuarioController : Controller
+    public class EmpleadoController : Controller
     {
         [HttpGet]
-        [Route("api/Usuario/GetAll")]
+        [Route("api/Empleado/GetAll")]
         public ActionResult GetAll()
         {
-            ML.Usuario usuario = new ML.Usuario();
-            ML.Result result = BL.Usuario.GetAll(usuario);
+            ML.Empleado empleado = new ML.Empleado();
+            empleado.Empresa = new ML.Empresa();
+            ML.Result result = BL.Empleado.GetAll(empleado);
             if (result.Correct)
             {
                 return Ok(result);
@@ -21,10 +22,10 @@ namespace SL.Controllers
         }
 
         [HttpPost]
-        [Route("api/Usuario/GetAll")]
-        public ActionResult GetAll([FromBody] ML.Usuario usuario)
+        [Route("api/Empleado/GetAll")]
+        public ActionResult GetAll([FromBody] ML.Empleado empleado)
         {
-            ML.Result result = BL.Usuario.GetAll(usuario);
+            ML.Result result = BL.Empleado.GetAll(empleado);
             if (result.Correct)
             {
                 return Ok(result);
@@ -36,10 +37,10 @@ namespace SL.Controllers
         }
 
         [HttpGet]
-        [Route("api/Usuario/GetById/{IdUsuario}")]
-        public ActionResult GetById(int IdUsuario)
+        [Route("api/Empleado/GetById/{NumeroEmpleado}")]
+        public ActionResult GetById(string NumeroEmpleado)
         {
-            ML.Result result = BL.Usuario.GetById(IdUsuario);
+            ML.Result result = BL.Empleado.GetById(NumeroEmpleado);
             if (result.Correct)
             {
                 return Ok(result);
@@ -51,16 +52,16 @@ namespace SL.Controllers
         }
 
         [HttpPost]
-        [Route("api/Usuario/Add")]
-        public ActionResult Add([FromBody] ML.Usuario usuario)
+        [Route("api/Empleado/Add")]
+        public ActionResult Add([FromBody] ML.Empleado empleado)
         {
-            //usuario.Rol = new ML.Rol();
-            //usuario.Direccion = new ML.Direccion();
+            //Empleado.Rol = new ML.Rol();
+            //Empleado.Direccion = new ML.Direccion();
 
-            ML.Result result = BL.Usuario.Add(usuario);
+            ML.Result result = BL.Empleado.Add(empleado);
             if (result.Correct)
             {
-                
+
                 return Ok(result);
             }
             else
@@ -69,10 +70,10 @@ namespace SL.Controllers
             }
         }
         [HttpPost]
-        [Route("api/Usuario/Update")]
-        public ActionResult Update([FromBody] ML.Usuario usuario)
+        [Route("api/Empleado/Update")]
+        public ActionResult Update([FromBody] ML.Empleado empleado)
         {
-            ML.Result result = BL.Usuario.Update(usuario);
+            ML.Result result = BL.Empleado.Update(empleado);
             if (result.Correct)
             {
                 return Ok(result);
@@ -84,10 +85,10 @@ namespace SL.Controllers
         }
 
         [HttpPost]
-        [Route("api/Usuario/Delete/{IdUsuario}")]
-        public ActionResult Delete([FromBody] ML.Usuario usuario)
+        [Route("api/Empleado/Delete/{NumeroEmpleado}")]
+        public ActionResult Delete([FromBody] ML.Empleado empleado)
         {
-            ML.Result result = BL.Usuario.Delete(usuario);
+            ML.Result result = BL.Empleado.Delete(empleado);
             if (result.Correct)
             {
                 return Ok(result);
@@ -97,6 +98,5 @@ namespace SL.Controllers
                 return NotFound(result);
             }
         }
-
     }
 }

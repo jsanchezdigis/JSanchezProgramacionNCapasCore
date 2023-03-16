@@ -64,7 +64,7 @@ namespace SL.Controllers
         }
 
         [HttpPost]
-        [Route("api/Aseguradora/Delete")]
+        [Route("api/Aseguradora/Delete/{IdAseguradora}")]
         public ActionResult Delete([FromBody] ML.Aseguradora aseguradora)
         {
             ML.Result result = BL.Aseguradora.Delete(aseguradora);

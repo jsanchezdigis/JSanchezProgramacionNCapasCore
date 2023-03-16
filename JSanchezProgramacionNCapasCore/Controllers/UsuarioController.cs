@@ -1,5 +1,7 @@
 ﻿using BL;
 using Microsoft.AspNetCore.Mvc;
+using ML;
+using System.Runtime.InteropServices;
 
 namespace PL.Controllers
 {
@@ -18,7 +20,7 @@ namespace PL.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
-            ML.Usuario usuario = new ML.Usuario();
+            //ML.Usuario usuario = new ML.Usuario();
             //ML.Result result = BL.Usuario.GetAll(usuario);//EF
 
             //if (result.Correct)
@@ -31,6 +33,7 @@ namespace PL.Controllers
             //    return View(usuario);
             //}
 
+            ML.Usuario usuario = new ML.Usuario();
             ML.Result result = new ML.Result();
             result.Objects = new List<object>();
 
@@ -114,26 +117,84 @@ namespace PL.Controllers
             else
             {
                 //GetById
-                ML.Result result = BL.Usuario.GetById(IdUsuario.Value);
+                ML.Result result = new ML.Result();
 
-                if (result.Correct) //&& resultPais.Correct)
+                using (var client = new HttpClient())
                 {
-                    usuario = (ML.Usuario)result.Object;
-                    usuario.Rol.Roles = resultRol.Objects;
-                    usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = resultPais.Objects;
-                    ML.Result resultEstado = BL.Estado.GetById(usuario.Direccion.Colonia.Municipio.Estado.Pais.IdPais);
-                    ML.Result resultMunicipio = BL.Municipio.GetById(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
-                    ML.Result resultColonia = BL.Colonia.GetById(usuario.Direccion.Colonia.Municipio.IdMunicipio);
-                    usuario.Direccion.Colonia.Municipio.Estado.Estados = resultEstado.Objects;
-                    usuario.Direccion.Colonia.Municipio.Municipios = resultMunicipio.Objects;
-                    usuario.Direccion.Colonia.Colonias = resultColonia.Objects;
-                    return View(usuario);
+                    try
+                    {
+                        client.BaseAddress = new Uri(_configuration["urlApi"]);
+                        //GET
+                        var responseTask = client.GetAsync("Usuario/GetById/" + IdUsuario);
+                        responseTask.Wait();
+
+                        var resultService = responseTask.Result;
+
+                        if (resultService.IsSuccessStatusCode)
+                        {
+                            var readTask = resultService.Content.ReadAsAsync<ML.Result>();
+                            readTask.Wait();
+
+
+                            ML.Usuario resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(readTask.Result.Object.ToString());
+                            //result.Objects.Add(resultItemList);
+                            result.Object = resultItemList;
+
+                            usuario.Direccion = new ML.Direccion();
+                            usuario.Direccion.Colonia = new ML.Colonia();
+                            usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+                            usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                            usuario.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
+
+                            usuario = (ML.Usuario)result.Object;
+
+                            ML.Result resultEstado = BL.Estado.GetById(usuario.Direccion.Colonia.Municipio.Estado.Pais.IdPais);
+                            ML.Result resultMunicipio = BL.Municipio.GetById(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
+                            ML.Result resultColonia = BL.Colonia.GetById(usuario.Direccion.Colonia.Municipio.IdMunicipio);
+
+                            usuario.Usuarios = resultPais.Objects;
+                            usuario.Rol.Roles = resultRol.Objects;
+                            usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = resultPais.Objects;
+                            usuario.Direccion.Colonia.Municipio.Estado.Estados = resultEstado.Objects;
+                            usuario.Direccion.Colonia.Municipio.Municipios = resultMunicipio.Objects;
+                            usuario.Direccion.Colonia.Colonias = resultColonia.Objects;
+                            return View(usuario);
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                            result.ErrorMessage = "No se puedo hacer la consulta";
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = ex.Message;
+                    }
+                        return View("Modal");
                 }
-                else
-                {
-                    ViewBag.Message = "Ocurrio un error al consultar la informacion";
-                    return View("Modal");
-                }
+
+                //GetById
+                //ML.Result result = BL.Usuario.GetById(IdUsuario.Value);
+
+                //if (result.Correct) //&& resultPais.Correct)
+                //{
+                //    usuario = (ML.Usuario)result.Object;
+                //    usuario.Rol.Roles = resultRol.Objects;
+                //    usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = resultPais.Objects;
+                //    ML.Result resultEstado = BL.Estado.GetById(usuario.Direccion.Colonia.Municipio.Estado.Pais.IdPais);
+                //    ML.Result resultMunicipio = BL.Municipio.GetById(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
+                //    ML.Result resultColonia = BL.Colonia.GetById(usuario.Direccion.Colonia.Municipio.IdMunicipio);
+                //    usuario.Direccion.Colonia.Municipio.Estado.Estados = resultEstado.Objects;
+                //    usuario.Direccion.Colonia.Municipio.Municipios = resultMunicipio.Objects;
+                //    usuario.Direccion.Colonia.Colonias = resultColonia.Objects;
+                //    return View(usuario);
+                //}
+                //else
+                //{
+                //    ViewBag.Message = "Ocurrio un error al consultar la informacion";
+                //    return View("Modal");
+                //}
             }
         }
 
@@ -149,17 +210,18 @@ namespace PL.Controllers
                 usuario.Imagen = Convert.ToBase64String(imagen);
             }
 
-            ML.Result result = new ML.Result();
-
-            if (ModelState.IsValid == true)
+            using (var client = new HttpClient())
             {
-
+                client.BaseAddress = new Uri(_configuration["urlApi"]);
                 if (usuario.IdUsuario == 0)
                 {
-                    //Add
-                    result = BL.Usuario.Add(usuario);
+                    //POST
+                    var postTask = client.PostAsJsonAsync<ML.Usuario>("Usuario/Add", usuario);
+                    postTask.Wait();
 
-                    if (result.Correct)
+                    var result = postTask.Result;
+
+                    if (result.IsSuccessStatusCode)
                     {
                         ViewBag.Message = "Se completo el registro satisfactoriamente";
                     }
@@ -171,10 +233,13 @@ namespace PL.Controllers
                 }
                 else
                 {
-                    //Update
-                    result = BL.Usuario.Update(usuario);
-                    if (result.Correct)
+                    var postTask = client.PostAsJsonAsync<ML.Usuario>("Usuario/Update", usuario);
+                    postTask.Wait();
+
+                    var result = postTask.Result;
+                    if (result.IsSuccessStatusCode)
                     {
+                        //return RedirectToAction("GetAll");
                         ViewBag.Message = "Se actualizo el registro satisfactoriamente";
                     }
                     else
@@ -183,40 +248,110 @@ namespace PL.Controllers
                     }
                     return View("Modal");
                 }
+                return View("Modal");
             }
-            else
-            {
-                usuario.Direccion = new ML.Direccion();
-                usuario.Direccion.Colonia = new ML.Colonia();
-                usuario.Direccion.Colonia.Municipio = new ML.Municipio();
-                usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
-                usuario.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
 
-                ML.Result resultRol = BL.Rol.GetAll();
-                ML.Result resultPais = BL.Pais.GetAll();
+            //sin utilizar el consumo de servicios
+            //ML.Result result = new ML.Result();
 
-                usuario.Rol.Roles = resultRol.Objects;
-                usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = resultPais.Objects;
+            //if (ModelState.IsValid == true)
+            //{
 
-                return View(usuario);
-            }
+            //    if (usuario.IdUsuario == 0)
+            //    {
+            //        //Add
+            //        result = BL.Usuario.Add(usuario);
+
+            //        if (result.Correct)
+            //        {
+            //            ViewBag.Message = "Se completo el registro satisfactoriamente";
+            //        }
+            //        else
+            //        {
+            //            ViewBag.Message = "Ocurrio un error al insertar el registro";
+            //        }
+            //        return View("Modal");
+            //    }
+            //    else
+            //    {
+            //        //Update
+            //        result = BL.Usuario.Update(usuario);
+            //        if (result.Correct)
+            //        {
+            //            ViewBag.Message = "Se actualizo el registro satisfactoriamente";
+            //        }
+            //        else
+            //        {
+            //            ViewBag.Message = "Ocurrio un error al actualizar el registro";
+            //        }
+            //        return View("Modal");
+            //    }
+            //}
+            //else
+            //{
+            //    usuario.Direccion = new ML.Direccion();
+            //    usuario.Direccion.Colonia = new ML.Colonia();
+            //    usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+            //    usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+            //    usuario.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
+
+            //    ML.Result resultRol = BL.Rol.GetAll();
+            //    ML.Result resultPais = BL.Pais.GetAll();
+
+            //    usuario.Rol.Roles = resultRol.Objects;
+            //    usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = resultPais.Objects;
+
+            //    return View(usuario);
+            //}
         }
 
         [HttpGet]
         public ActionResult Delete(ML.Usuario usuario)
         {
-            ML.Result result = new ML.Result();
+            //ML.Result resultUsuario = new ML.Result();
+            int IdUsuario = usuario.IdUsuario;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_configuration["urlApi"]);
 
-            result = BL.Usuario.Delete(usuario);
-            if (result.Correct)
-            {
-                ViewBag.Message = "Se elimino el registro satisfactoriamente";
+                //POST-Delete
+                //var postTask = client.DeleteAsync("Usuario/Delete/" + IdUsuario);
+                var postTask = client.PostAsJsonAsync<ML.Usuario>("Usuario/Delete/" + IdUsuario,usuario);
+                postTask.Wait();
+
+                var result = postTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    ViewBag.Message = "Se elimino el registro satisfactoriamente";
+                    //resultUsuario = BL.Usuario.GetAll(usuario);
+                    //return RedirectToAction("GetAll", resultUsuario);
+                }
+                else
+                {
+                    ViewBag.Message = "Ocurrio un error al eliminar el registro";
+                }
+                return View("Modal");
             }
-            else
-            {
-                ViewBag.Message = "Ocurrio un error al eliminar el registro";
-            }
-            return View("Modal");
+
+
+            //resultUsuario = BL.Usuario.GetAll(usuario);
+            //return View("GetAll", resultListProduct);
+
+
+
+            //ML.Result result = new ML.Result();
+
+            //result = BL.Usuario.Delete(usuario);
+            //if (result.Correct)
+            //{
+            //    ViewBag.Message = "Se elimino el registro satisfactoriamente";
+            //}
+            //else
+            //{
+            //    ViewBag.Message = "Ocurrio un error al eliminar el registro";
+            //}
+            //return View("Modal");
         }
 
         [HttpPost]
@@ -267,7 +402,7 @@ namespace PL.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(string UserNombre,string Password)
+        public ActionResult Login(string UserNombre, string Password)
         {
             ML.Result result = BL.Usuario.GetByName(UserNombre);
             if (result.Correct)
